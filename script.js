@@ -3,6 +3,10 @@ const text = document.getElementById("text");
 const scoreEl = document.getElementById("score");
 const timeEl = document.getElementById("time");
 const endGameEl = document.getElementById("end-game-container");
+const settings = document.getElementById("settings");
+const settingsForm = document.getElementById("settings-form");
+const settingsBtn = document.getElementById("settings-btn");
+const difficultySelect = document.getElementById("difficulty");
 
 
 const words = [
@@ -29,6 +33,18 @@ const words = [
 let randomWord;
 let score = 0;
 let time = 10;
+
+//SELECT DIFFICULTY IF NOT SELECTED DEFAULT IS MEDIUM
+let difficulty = 
+    localStorage.getItem("difficulty") !==null
+    ?localStorage.getItem("difficulty")
+    : "medium";
+
+//SET DIFFICULTY SELECT VALUE
+difficultySelect.value =
+    localStorage.getItem("difficulty") !==null
+    ?localStorage.getItem("difficulty")
+    : "medium" ;
 
 //FOCUS TEXT INPUT AT THE START
 text.focus();
@@ -87,8 +103,28 @@ text.addEventListener("input", (event) => {
         event.target.value = "";
 
         //INCRIMENT THE TIME WHEN CORRECT INPUT IS ENTERED
-        time +=5;
+        //time +=5;
 
+
+        if (difficulty === "hard"){
+            time +=2;
+        } else if (difficulty === "medium"){
+            time +=3;
+        } else {
+            time +=5;
+        }
+            
+        updateTime();
     }
 });
+
+//SETTING BUTTON CLICK
+settingsBtn.addEventListener("click", () => settings.classList.toggle("hide"));
+
+//SETTINGS SELECT
+settingsForm.addEventListener("change", (event) => {
+    difficulty = event.target.value;
+
+    localStorage.setItem("difficulty", difficulty);
+})
 
