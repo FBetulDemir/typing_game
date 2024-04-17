@@ -1,4 +1,6 @@
 const word = document.getElementById("word");
+const text = document.getElementById("text");
+const scoreEl = document.getElementById("score");
 
 
 const words = [
@@ -23,6 +25,7 @@ const words = [
     "north",
 ]
 let randomWord;
+let score = 0;
 
 function getRandomWord(){
     return words[Math.floor(Math.random()* words.length)]
@@ -34,3 +37,20 @@ function addWordToDOM(){
 }
 
 addWordToDOM();
+
+function updateScore(){
+    score++;
+    scoreEl.innerHTML = score;
+}
+
+text.addEventListener("input", (event) => {
+    const insertedText = event.target.value;
+    console.log(insertedText);
+
+    if(insertedText === randomWord){
+        addWordToDOM();
+        updateScore();
+        event.target.value = "";
+    }
+});
+
